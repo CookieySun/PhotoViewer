@@ -37,6 +37,7 @@ class SearchFragment : Fragment() {
 
                     fragmentManager!!.beginTransaction()
                         .replace(R.id.container, fragment)
+                        .addToBackStack("SearchFragment")
                         .commit()
 
                     true
