@@ -9,12 +9,16 @@
     <string name="secret">13936589b2628639</string>
 
     <string name="search_base_url">https://www.flickr.com/services/rest/</string>
-    <string name="search_parameter_method">method=flickr.photos.search</string>
-    <string name="search_parameter_api_key">api_key=</string>
-    <string name="search_parameter_format">format=rest</string>
-    <string name="search_parameter_min_upload_date">min_upload_date=</string>
-    <string name="search_parameter_text">text=</string>
-    <string name="search_parameter_sort">sort=</string>
+    <string name="search_parameter_method">method</string>
+    <string name="search_parameter_method_value">flickr.photos.search</string>
+    <string name="search_parameter_api_key">api_key</string>
+    <string name="search_parameter_format">format</string>
+    <string name="search_parameter_format_value">json</string>
+    <string name="search_parameter_nojsoncallback">nojsoncallback</string>
+    <string name="search_parameter_nojsoncallback_value">1</string>
+    <string name="search_parameter_min_upload_date">min_upload_date</string>
+    <string name="search_parameter_text">text</string>
+    <string name="search_parameter_sort">sort</string>
 
     <string name="photo_base_url_1">https://farm</string>
     <string name="photo_base_url_2">.staticflickr.com/</string>
