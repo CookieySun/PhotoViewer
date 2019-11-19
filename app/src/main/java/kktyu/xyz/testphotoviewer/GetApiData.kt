@@ -26,7 +26,7 @@ class GetApiData(url: String) {
     }
 
     // masterデータ取得処理
-    fun getPhotoList(parameter: Map<String,String>): Response<Rsp>? {
+    fun getPhotoList(parameter: Map<String,String>): Response<Rsp> {
         val service = retrofit.create(SearchApiInterface::class.java)
         return service.getMaster(parameter).execute()
     }

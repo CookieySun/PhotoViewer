@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.GroupAdapter
@@ -50,7 +51,7 @@ class PhotoListFragment : Fragment() {
         val clickListener: (View) -> Unit = {
             Log.d("loglog", "click:$it")
         }
-        
+
         // 検索単語取得
         val searchWord = if (arguments == null) {
             ""
@@ -61,9 +62,22 @@ class PhotoListFragment : Fragment() {
         parameter[activity!!.getString(R.string.search_parameter_text)] = searchWord
 
         // API処理
-        val itemList = getApi()
+        lateinit var photos : Photos
+        val photoInfo= mutableListOf<PhotoInfo>()
+        val response = getApi()
 
-        Log.d("loglog", itemList.toString())
+        if (response.isSuccessful) {
+            if(response.body() != null) {
+                photos = response.body()!!.photos
+                photos.photo.forEach {
+                    photoInfo.add(it)
+                }
+            }
+        }else{
+            Toast.makeText(activity!!.applicationContext,"ステータスコード:${response.code()}",Toast.LENGTH_LONG).show()
+            
+        }
+
         val adapter = GroupAdapter<ViewHolder>()
 
         binding.photoList.adapter = adapter
