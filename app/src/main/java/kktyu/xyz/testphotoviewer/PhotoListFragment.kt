@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoListBinding
@@ -62,31 +63,59 @@ class PhotoListFragment : Fragment() {
         parameter[activity!!.getString(R.string.search_parameter_text)] = searchWord
 
         // API処理
-        lateinit var photos : Photos
-        val photoInfo= mutableListOf<PhotoInfo>()
+        lateinit var photos: Photos
+        val photoInfo = mutableListOf<PhotoInfo>()
         val response = getApi()
 
         if (response.isSuccessful) {
-            if(response.body() != null) {
+            if (response.body() != null) {
                 photos = response.body()!!.photos
                 photos.photo.forEach {
                     photoInfo.add(it)
                 }
             }
-        }else{
-            Toast.makeText(activity!!.applicationContext,"ステータスコード:${response.code()}",Toast.LENGTH_LONG).show()
-            
+        } else {
+            // API失敗
+            // トースト表示
+            Toast.makeText(
+                activity!!.applicationContext,
+                "ステータスコード:${response.code()}",
+                Toast.LENGTH_LONG
+            ).show()
+
+            // サーチ画面に戻る
+            if (fragmentManager != null) {
+                fragmentManager!!.popBackStack()
+            }
+        }
+
+        val itemList = mutableListOf<Photo>()
+
+        photoInfo.forEach {
+            itemList.add(
+                Photo(
+                    it.title,
+                    activity!!.getString(R.string.photo_base_url_1) +
+                            it.farm +
+                            activity!!.getString(R.string.photo_base_url_2) +
+                            "/" +
+                            it.server +
+                            "/" +
+                            it.id + "_" + it.secret + activity!!.getString(R.string.photo_url_small),
+                    "2019-10-10"
+                )
+            )
         }
 
         val adapter = GroupAdapter<ViewHolder>()
 
         binding.photoList.adapter = adapter
 
-//        adapter.update(mutableListOf<Group>().apply {
-//            itemList.forEach {
-//                add(PhotoItem(it, clickListener))
-//            }
-//        })
+        adapter.update(mutableListOf<Group>().apply {
+            itemList.forEach {
+                add(PhotoItem(it, clickListener))
+            }
+        })
 
         binding.photoList.layoutManager = GridLayoutManager(this.activity, 2)
     }
