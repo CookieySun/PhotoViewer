@@ -46,6 +46,12 @@ class PhotoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // クリックリスナー設定
+        val clickListener: (View) -> Unit = {
+            Log.d("loglog", "click:$it")
+        }
+        
+        // 検索単語取得
         val searchWord = if (arguments == null) {
             ""
         } else {
@@ -54,10 +60,7 @@ class PhotoListFragment : Fragment() {
 
         parameter[activity!!.getString(R.string.search_parameter_text)] = searchWord
 
-        val clickListener: (View) -> Unit = {
-            Log.d("loglog", "click:$it")
-        }
-
+        // API処理
         val itemList = getApi()
 
         Log.d("loglog", itemList.toString())
