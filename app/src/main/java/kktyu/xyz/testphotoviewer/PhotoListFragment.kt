@@ -29,7 +29,12 @@ class PhotoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("loglog","word:"+arguments?.getString(activity!!.getString(R.string.SEARCH_WORD)))
+
+        val searchWord = if (arguments == null) {
+            ""
+        } else {
+            arguments!!.getString(activity!!.getString(R.string.SEARCH_WORD))
+        }
 
         val clickListener: (View) -> Unit = {
             Log.d("loglog", "click:$it")
