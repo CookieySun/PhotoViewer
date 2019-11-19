@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction().replace(
             R.id.container,
-            PhotoListFragment()
+            SearchFragment()
         ).commit()
     }
 }

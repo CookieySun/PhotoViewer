@@ -1,6 +1,5 @@
 package kktyu.xyz.testphotoviewer
 
-import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import com.xwray.groupie.databinding.BindableItem
