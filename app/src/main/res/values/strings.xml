@@ -3,4 +3,8 @@
 
     <string name="search_word">Search Word</string>
     <string name="SEARCH_WORD">SEARCH_WORD</string>
+
+    // API
+    <string name="api_key">66239b5de5a118ef1e35c21fa5598400</string>
+    <string name="secret">13936589b2628639</string>
 </resources>
