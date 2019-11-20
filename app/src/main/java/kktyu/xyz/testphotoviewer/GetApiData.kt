@@ -1,5 +1,6 @@
 package kktyu.xyz.testphotoviewer
 
+import android.icu.text.IDNA
 import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -25,11 +26,17 @@ class GetApiData(url: String) {
             .build()
     }
 
-    // masterデータ取得処理
+    // リストデータ取得処理
     fun getPhotoList(parameter: Map<String,String>): Response<Rsp> {
         val service = retrofit.create(SearchApiInterface::class.java)
         return service.getMaster(parameter).execute()
     }
+
+    fun getPhotoInfo(parameter: Map<String, String>): Response<RspInfo> {
+        val service = retrofit.create(InfoApiInterface::class.java)
+        return service.getInfo(parameter).execute()
+    }
+
 
     private fun getClient(): OkHttpClient {
         return OkHttpClient

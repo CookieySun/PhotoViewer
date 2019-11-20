@@ -1,7 +1,10 @@
 package kktyu.xyz.testphotoviewer
 
 data class Photo(
-    var title: String,
-    var photo: String,
-    var date: String
+    val title: String,
+    val id: String,
+    val owner: String,
+    val secret: String,
+    val server: String,
+    val farm: String
 )

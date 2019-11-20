@@ -85,7 +85,7 @@ class PhotoListFragment : Fragment() {
             val mainHandler = Handler(Looper.getMainLooper())
             // API処理
             lateinit var photos: Photos
-            val photoInfo = mutableListOf<PhotoInfo>()
+            val photoInfo = mutableListOf<Photo>()
             val response = getApi()
 
             if (response.isSuccessful) {
@@ -131,11 +131,12 @@ class PhotoListFragment : Fragment() {
                 }
             }
 
-            val itemList = mutableListOf<Photo>()
+            val itemList = mutableListOf<PhotoModel>()
 
             photoInfo.forEach {
                 itemList.add(
-                    Photo(
+                    PhotoModel(
+                        it.id,
                         it.title,
                         activity!!.getString(R.string.photo_base_url_1) +
                                 it.farm +
@@ -144,7 +145,8 @@ class PhotoListFragment : Fragment() {
                                 it.server +
                                 "/" +
                                 it.id + "_" + it.secret,
-                        "2019-10-10"
+                        "",
+                        ""
                     )
                 )
             }
@@ -153,7 +155,7 @@ class PhotoListFragment : Fragment() {
             mainHandler.post {
                 adapter.update(mutableListOf<Group>().apply {
                     itemList.forEach {
-                        add(PhotoItem(it, activity!!))
+                        add(PhotoItem(it, activity!!,fragmentManager))
                     }
                 })
             }
