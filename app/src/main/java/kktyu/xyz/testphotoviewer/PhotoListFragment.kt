@@ -1,6 +1,8 @@
 package kktyu.xyz.testphotoviewer
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +14,7 @@ import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoListBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class PhotoListFragment : Fragment() {
     lateinit var binding: FragmentPhotoListBinding
@@ -62,71 +62,78 @@ class PhotoListFragment : Fragment() {
 
         parameter[activity!!.getString(R.string.search_parameter_text)] = searchWord
 
-        // API処理
-        lateinit var photos: Photos
-        val photoInfo = mutableListOf<PhotoInfo>()
-        val response = getApi()
-
-        if (response.isSuccessful) {
-            if (response.body() != null) {
-                photos = response.body()!!.photos
-                photos.photo.forEach {
-                    photoInfo.add(it)
-                }
-            }
-        } else {
-            // API失敗
-            // トースト表示
-            Toast.makeText(
-                activity!!.applicationContext,
-                "ステータスコード:${response.code()}",
-                Toast.LENGTH_LONG
-            ).show()
-
-            // サーチ画面に戻る
-            if (fragmentManager != null) {
-                fragmentManager!!.popBackStack()
-            }
-        }
-
-        val itemList = mutableListOf<Photo>()
-
-        photoInfo.forEach {
-            itemList.add(
-                Photo(
-                    it.title,
-                    activity!!.getString(R.string.photo_base_url_1) +
-                            it.farm +
-                            activity!!.getString(R.string.photo_base_url_2) +
-                            "/" +
-                            it.server +
-                            "/" +
-                            it.id + "_" + it.secret + activity!!.getString(R.string.photo_url_small),
-                    "2019-10-10"
-                )
-            )
-        }
-
         val adapter = GroupAdapter<ViewHolder>()
 
         binding.photoList.adapter = adapter
 
-        adapter.update(mutableListOf<Group>().apply {
-            itemList.forEach {
-                add(PhotoItem(it, clickListener))
-            }
-        })
+        listCreate(clickListener, adapter)
 
         binding.photoList.layoutManager = GridLayoutManager(this.activity, 2)
     }
 
-    private fun getApi() = runBlocking {
-        return@runBlocking withContext(Dispatchers.IO) {
-            val list =
-                GetApiData(activity!!.getString(R.string.search_base_url)).getPhotoList(parameter)
+    private fun listCreate(
+        clickListener: (View) -> Unit,
+        adapter: GroupAdapter<ViewHolder>
+    ) {
+        // 処理に時間がかかることがあるので別スレッドで実行
+        GlobalScope.launch {
+            // API処理
+            lateinit var photos: Photos
+            val photoInfo = mutableListOf<PhotoInfo>()
+            val response = getApi()
 
-            list
+            if (response.isSuccessful) {
+                if (response.body() != null) {
+                    photos = response.body()!!.photos
+                    photos.photo.forEach {
+                        photoInfo.add(it)
+                    }
+                }
+            } else {
+                // API失敗
+                // トースト表示
+                Toast.makeText(
+                    activity!!.applicationContext,
+                    "ステータスコード:${response.code()}",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                // サーチ画面に戻る
+                if (fragmentManager != null) {
+                    fragmentManager!!.popBackStack()
+                }
+            }
+
+            val itemList = mutableListOf<Photo>()
+
+            photoInfo.forEach {
+                itemList.add(
+                    Photo(
+                        it.title,
+                        activity!!.getString(R.string.photo_base_url_1) +
+                                it.farm +
+                                activity!!.getString(R.string.photo_base_url_2) +
+                                "/" +
+                                it.server +
+                                "/" +
+                                it.id + "_" + it.secret + activity!!.getString(R.string.photo_url_small),
+                        "2019-10-10"
+                    )
+                )
+            }
+
+            // メインスレッドへ処理を移譲
+            val mainHandler = Handler(Looper.getMainLooper())
+            mainHandler.post {
+                adapter.update(mutableListOf<Group>().apply {
+                    itemList.forEach {
+                        add(PhotoItem(it, clickListener))
+                    }
+                })
+            }
         }
 
     }
+
+    private fun getApi() = GetApiData(activity!!.getString(R.string.search_base_url)).getPhotoList(parameter)
 }
