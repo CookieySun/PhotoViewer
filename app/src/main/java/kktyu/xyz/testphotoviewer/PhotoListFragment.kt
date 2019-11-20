@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,11 +59,6 @@ class PhotoListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // クリックリスナー設定
-        val clickListener: (View) -> Unit = {
-            Log.d("loglog", "click:$it")
-        }
-
         // 検索単語取得
         val searchWord = if (arguments == null) {
             ""
@@ -78,13 +72,12 @@ class PhotoListFragment : Fragment() {
 
         binding.photoList.adapter = adapter
 
-        listCreate(clickListener, adapter)
+        listCreate(adapter)
 
         binding.photoList.layoutManager = GridLayoutManager(this.activity, 2)
     }
 
     private fun listCreate(
-        clickListener: (View) -> Unit,
         adapter: GroupAdapter<ViewHolder>
     ) {
         // 処理に時間がかかることがあるので別スレッドで実行
@@ -160,7 +153,7 @@ class PhotoListFragment : Fragment() {
             mainHandler.post {
                 adapter.update(mutableListOf<Group>().apply {
                     itemList.forEach {
-                        add(PhotoItem(it, clickListener))
+                        add(PhotoItem(it))
                     }
                 })
             }
