@@ -133,5 +133,6 @@ class PhotoListFragment : Fragment() {
         }
     }
 
-    private fun getApi() = GetApiData(activity!!.getString(R.string.search_base_url)).getPhotoList(parameter)
+    private fun getApi() =
+        GetApiData(activity!!.getString(R.string.search_base_url)).getPhotoList(parameter)
 }
