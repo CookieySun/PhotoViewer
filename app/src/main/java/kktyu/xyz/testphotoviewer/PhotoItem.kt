@@ -7,7 +7,6 @@ import kktyu.xyz.testphotoviewer.databinding.PhotoItemBinding
 
 class PhotoItem(private val photo: Photo, val clickListener: (View) -> Unit) :
     BindableItem<PhotoItemBinding>() {
-
     override fun getLayout() = R.layout.photo_item
 
     override fun bind(viewBinding: PhotoItemBinding, position: Int) {

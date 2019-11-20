@@ -34,7 +34,6 @@ class PhotoListFragment : Fragment() {
             activity!!.getString(R.string.search_parameter_format_value)
         parameter[activity!!.getString(R.string.search_parameter_nojsoncallback)] =
             activity!!.getString(R.string.search_parameter_nojsoncallback_value)
-
     }
 
     override fun onCreateView(
@@ -132,7 +131,6 @@ class PhotoListFragment : Fragment() {
                 })
             }
         }
-
     }
 
     private fun getApi() = GetApiData(activity!!.getString(R.string.search_base_url)).getPhotoList(parameter)
