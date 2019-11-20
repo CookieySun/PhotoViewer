@@ -89,6 +89,7 @@ class PhotoListFragment : Fragment() {
     ) {
         // 処理に時間がかかることがあるので別スレッドで実行
         GlobalScope.launch {
+            val mainHandler = Handler(Looper.getMainLooper())
             // API処理
             lateinit var photos: Photos
             val photoInfo = mutableListOf<PhotoInfo>()
@@ -99,19 +100,38 @@ class PhotoListFragment : Fragment() {
 
                 if (response.body() != null) {
                     photos = response.body()!!.photos
-                    photos.photo.forEach {
-                        photoInfo.add(it)
+
+                    // 検索結果件数確認
+                    if (photos.photo.isNotEmpty()) {
+                        photos.photo.forEach {
+                            photoInfo.add(it)
+                        }
+                    } else {
+                        // 検索結果なし
+                        // トースト表示
+                        mainHandler.post {
+                            Toast.makeText(
+                                activity!!.applicationContext,
+                                "検索結果 0件",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        // サーチ画面に戻る
+                        if (fragmentManager != null) {
+                            fragmentManager!!.popBackStack()
+                        }
                     }
                 }
             } else {
                 // API失敗
                 // トースト表示
-                Toast.makeText(
-                    activity!!.applicationContext,
-                    "ステータスコード:${response.code()}",
-                    Toast.LENGTH_LONG
-                ).show()
-
+                mainHandler.post {
+                    Toast.makeText(
+                        activity!!.applicationContext,
+                        "ステータスコード:${response.code()}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
                 // サーチ画面に戻る
                 if (fragmentManager != null) {
                     fragmentManager!!.popBackStack()
@@ -137,7 +157,6 @@ class PhotoListFragment : Fragment() {
             }
 
             // メインスレッドへ処理を移譲
-            val mainHandler = Handler(Looper.getMainLooper())
             mainHandler.post {
                 adapter.update(mutableListOf<Group>().apply {
                     itemList.forEach {
