@@ -1,5 +1,6 @@
 package kktyu.xyz.testphotoviewer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,13 +15,17 @@ import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoListBinding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PhotoListFragment : Fragment() {
     lateinit var binding: FragmentPhotoListBinding
     lateinit var baseUrl: String
     val parameter = mutableMapOf<String, String>()
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,6 +35,13 @@ class PhotoListFragment : Fragment() {
             activity!!.getString(R.string.search_parameter_method_value)
         parameter[activity!!.getString(R.string.search_parameter_api_key)] =
             activity!!.getString(R.string.api_key)
+
+        val calendar = Calendar.getInstance().apply {
+            time = Date(System.currentTimeMillis())
+            add(Calendar.DATE, -14)
+        }
+        parameter[activity!!.getString(R.string.search_parameter_min_upload_date)] =
+            SimpleDateFormat("yyyy-MM-dd").format(calendar.time)
         parameter[activity!!.getString(R.string.search_parameter_format)] =
             activity!!.getString(R.string.search_parameter_format_value)
         parameter[activity!!.getString(R.string.search_parameter_nojsoncallback)] =
