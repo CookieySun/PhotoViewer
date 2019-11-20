@@ -21,9 +21,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PhotoListFragment : Fragment() {
-    lateinit var binding: FragmentPhotoListBinding
-    lateinit var baseUrl: String
-    val parameter = mutableMapOf<String, String>()
+    private lateinit var binding: FragmentPhotoListBinding
+    private lateinit var baseUrl: String
+    private val parameter = mutableMapOf<String, String>()
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
