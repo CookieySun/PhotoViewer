@@ -143,7 +143,7 @@ class PhotoListFragment : Fragment() {
                                 "/" +
                                 it.server +
                                 "/" +
-                                it.id + "_" + it.secret + activity!!.getString(R.string.photo_url_small),
+                                it.id + "_" + it.secret,
                         "2019-10-10"
                     )
                 )
@@ -153,7 +153,7 @@ class PhotoListFragment : Fragment() {
             mainHandler.post {
                 adapter.update(mutableListOf<Group>().apply {
                     itemList.forEach {
-                        add(PhotoItem(it))
+                        add(PhotoItem(it, activity!!))
                     }
                 })
             }
