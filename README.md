@@ -1,7 +1,7 @@
 PhotoViewer
 
 # どんなアプリ  
-FlickrのAPIを使って検索したワードの写真を表示するアプリです。
+FlickrのAPIを使って検索したワードの写真を表示するアプリです。  
 <img src="./Movie/Demo.gif" width="300px">  
 
 # 使用技術
