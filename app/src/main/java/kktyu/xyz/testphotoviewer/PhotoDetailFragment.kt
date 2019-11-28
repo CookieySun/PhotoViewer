@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoDetailBinding
 import kktyu.xyz.testphotoviewer.photoInfoResponseDataClass.PhotoInfo
 import kotlinx.coroutines.Dispatchers
@@ -46,6 +45,12 @@ class PhotoDetailFragment : Fragment() {
             arguments!!.getString(activity!!.getString(R.string.ID))
         }
 
+        val url = if (arguments == null) {
+            ""
+        } else {
+            arguments!!.getString(activity!!.getString(R.string.URL))
+        }
+
         parameter[activity!!.getString(R.string.get_info_parameter_id)] = id
 
         val response = getApi()
@@ -55,10 +60,12 @@ class PhotoDetailFragment : Fragment() {
             if (response.body() != null) {
                 photoInfo = response.body()!!.photo
 
-                binding.photo = PhotoDetailModel(
+                binding.viewModel = PhotoDetailViewModel()
+                binding.viewModel?.item = PhotoDetail(
                     photoInfo.title._content,
                     photoInfo.description._content,
-                    photoInfo.dates.taken
+                    photoInfo.dates.taken,
+                    Url(url, activity!!)
                 )
             }
         } else {
@@ -75,16 +82,6 @@ class PhotoDetailFragment : Fragment() {
                 fragmentManager!!.popBackStack()
             }
         }
-
-        val url = if (arguments == null) {
-            ""
-        } else {
-            arguments!!.getString(activity!!.getString(R.string.URL))
-        }
-
-        Glide.with(activity!!.applicationContext)
-            .load(url + activity!!.getString(R.string.photo_url_large))
-            .into(binding.imageView)
     }
 
     private fun getApi() = runBlocking {
