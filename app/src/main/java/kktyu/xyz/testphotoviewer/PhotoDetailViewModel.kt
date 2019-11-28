@@ -16,7 +16,7 @@ class PhotoDetailViewModel : BaseObservable() {
         get() {
             val sageItem = item ?: return NullImageLoader()
             return GlideImageLoader(
-                sageItem.url
+                sageItem.url.getDetailUrl()
             )
         }
 }

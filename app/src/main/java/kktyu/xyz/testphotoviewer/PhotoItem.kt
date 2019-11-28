@@ -17,7 +17,7 @@ class PhotoItem(
     private val clickListener: (View) -> Unit = {
         val bundle = Bundle()
         bundle.putString(activity.getString(R.string.ID), photoModel.id)
-        bundle.putString(activity.getString(R.string.URL), photoModel.photo)
+        bundle.putString(activity.getString(R.string.URL), photoModel.photo.url)
 
         val fragment = PhotoDetailFragment()
         fragment.arguments = bundle
@@ -34,7 +34,7 @@ class PhotoItem(
         viewBinding.model = photoModel
         viewBinding.root.setOnClickListener(clickListener)
         Glide.with(viewBinding.root.context)
-            .load(photoModel.photo + activity.getString(R.string.photo_url_small))
+            .load(photoModel.photo.getListUrl())
             .into(viewBinding.imageView)
     }
 }

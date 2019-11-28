@@ -65,7 +65,7 @@ class PhotoDetailFragment : Fragment() {
                     photoInfo.title._content,
                     photoInfo.description._content,
                     photoInfo.dates.taken,
-                    url + activity!!.getString(R.string.photo_url_large)
+                    Url(url, activity!!)
                 )
             }
         } else {
