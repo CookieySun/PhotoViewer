@@ -14,6 +14,8 @@ import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoListBinding
+import kktyu.xyz.testphotoviewer.listResponseDataClass.Photo
+import kktyu.xyz.testphotoviewer.listResponseDataClass.Photos
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

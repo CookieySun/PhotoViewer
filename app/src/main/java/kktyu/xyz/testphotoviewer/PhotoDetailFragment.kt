@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoDetailBinding
+import kktyu.xyz.testphotoviewer.photoInfoResponseDataClass.PhotoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
