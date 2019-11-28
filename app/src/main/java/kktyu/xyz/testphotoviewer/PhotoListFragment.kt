@@ -133,11 +133,11 @@ class PhotoListFragment : Fragment() {
                 }
             }
 
-            val itemList = mutableListOf<ListItemModel>()
+            val itemList = mutableListOf<ListItem>()
 
             photoInfo.forEach {
                 itemList.add(
-                    ListItemModel(
+                    ListItem(
                         it.id,
                         it.title,
                         Url(
