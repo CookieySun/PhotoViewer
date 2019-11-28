@@ -1,4 +1,4 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.listResponseDataClass
 
 data class Photos(
     val page:String,

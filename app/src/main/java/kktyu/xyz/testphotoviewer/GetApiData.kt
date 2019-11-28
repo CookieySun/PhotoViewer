@@ -1,9 +1,8 @@
 package kktyu.xyz.testphotoviewer
 
-import android.icu.text.IDNA
-import android.util.Log
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kktyu.xyz.testphotoviewer.listResponseDataClass.Rsp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -27,7 +26,7 @@ class GetApiData(url: String) {
     }
 
     // リストデータ取得処理
-    fun getPhotoList(parameter: Map<String,String>): Response<Rsp> {
+    fun getPhotoList(parameter: Map<String, String>): Response<Rsp> {
         val service = retrofit.create(SearchApiInterface::class.java)
         return service.getMaster(parameter).execute()
     }
