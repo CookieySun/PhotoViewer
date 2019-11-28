@@ -133,11 +133,11 @@ class PhotoListFragment : Fragment() {
                 }
             }
 
-            val itemList = mutableListOf<PhotoModel>()
+            val itemList = mutableListOf<ListItemModel>()
 
             photoInfo.forEach {
                 itemList.add(
-                    PhotoModel(
+                    ListItemModel(
                         it.id,
                         it.title,
                         activity!!.getString(R.string.photo_base_url_1) +
@@ -146,9 +146,7 @@ class PhotoListFragment : Fragment() {
                                 "/" +
                                 it.server +
                                 "/" +
-                                it.id + "_" + it.secret,
-                        "",
-                        ""
+                                it.id + "_" + it.secret
                     )
                 )
             }

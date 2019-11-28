@@ -55,10 +55,8 @@ class PhotoDetailFragment : Fragment() {
             if (response.body() != null) {
                 photoInfo = response.body()!!.photo
 
-                binding.photo = PhotoModel(
-                    "",
+                binding.photo = PhotoDetailModel(
                     photoInfo.title._content,
-                    "",
                     photoInfo.description._content,
                     photoInfo.dates.taken
                 )
