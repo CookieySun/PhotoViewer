@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="photo"
-            type="kktyu.xyz.testphotoviewer.PhotoDetailModel" />
+            name="viewModel"
+            type="kktyu.xyz.testphotoviewer.PhotoDetailViewModel" />
     </data>
 
     <ScrollView
@@ -25,6 +25,7 @@
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:image_loader="@{viewModel.photoLoader}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +34,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{photo.date}"
+                android:text="@{viewModel.item.date}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_view" />
 
@@ -41,7 +42,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{photo.title}"
+                android:text="@{viewModel.item.title}"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="@{photo.description}"
+                android:text="@{viewModel.item.description}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title" />
