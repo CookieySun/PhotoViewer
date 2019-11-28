@@ -9,7 +9,7 @@ import com.xwray.groupie.databinding.BindableItem
 import kktyu.xyz.testphotoviewer.databinding.PhotoItemBinding
 
 class PhotoItem(
-    private val photoModel: PhotoModel,
+    private val photoModel: ListItemModel,
     private val activity: FragmentActivity,
     fragmentManager: FragmentManager?
 ) :
@@ -31,7 +31,7 @@ class PhotoItem(
     override fun getLayout() = R.layout.photo_item
 
     override fun bind(viewBinding: PhotoItemBinding, position: Int) {
-        viewBinding.item = photoModel
+        viewBinding.model = photoModel
         viewBinding.root.setOnClickListener(clickListener)
         Glide.with(viewBinding.root.context)
             .load(photoModel.photo + activity.getString(R.string.photo_url_small))
