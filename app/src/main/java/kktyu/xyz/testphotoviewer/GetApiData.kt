@@ -3,6 +3,7 @@ package kktyu.xyz.testphotoviewer
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kktyu.xyz.testphotoviewer.listResponseDataClass.Rsp
+import kktyu.xyz.testphotoviewer.photoInfoResponseDataClass.RspInfo
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response

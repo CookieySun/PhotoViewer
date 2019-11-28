@@ -1,4 +1,4 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.photoInfoResponseDataClass
 
 data class RspInfo(
     val stat: String,
