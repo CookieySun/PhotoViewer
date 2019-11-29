@@ -29,4 +29,5 @@
     <string name="photo_base_url_2">.staticflickr.com/</string>
     <string name="photo_url_small">_q.jpg</string>
     <string name="photo_url_large">.jpg</string>
+    <string name="no_image">no image</string>
 </resources>
