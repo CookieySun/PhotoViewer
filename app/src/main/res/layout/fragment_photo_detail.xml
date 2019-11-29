@@ -25,7 +25,7 @@
                 android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/no_image"
+                android:contentDescription="@string/image"
                 app:image_loader="@{viewModel.photoLoader}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
