@@ -1,15 +1,16 @@
 package kktyu.xyz.testphotoviewer
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 
 class Url(
-    val url: String, private val activity: FragmentActivity
+    val url: String,
+    private val context: Context
 ) {
     fun getListUrl(): String {
-        return url + activity.getString(R.string.photo_url_small)
+        return url + context.getString(R.string.photo_url_small)
     }
 
     fun getDetailUrl(): String {
-        return url + activity.getString(R.string.photo_url_large)
+        return url + context.getString(R.string.photo_url_large)
     }
 }

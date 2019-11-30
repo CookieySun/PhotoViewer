@@ -148,7 +148,7 @@ class PhotoListFragment : Fragment() {
                                     it.server +
                                     "/" +
                                     it.id + "_" + it.secret,
-                            activity!!
+                            activity!!.applicationContext
                         )
                     )
                 )
