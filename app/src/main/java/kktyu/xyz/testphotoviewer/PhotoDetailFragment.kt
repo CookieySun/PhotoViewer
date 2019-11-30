@@ -65,7 +65,7 @@ class PhotoDetailFragment : Fragment() {
                     photoInfo.title._content,
                     photoInfo.description._content,
                     photoInfo.dates.taken,
-                    Url(url, activity!!)
+                    Url(url, activity!!.applicationContext)
                 )
             }
         } else {
