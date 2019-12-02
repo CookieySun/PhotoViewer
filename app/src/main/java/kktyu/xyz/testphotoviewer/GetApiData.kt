@@ -32,6 +32,7 @@ class GetApiData(url: String) {
         return service.getMaster(parameter).execute()
     }
 
+    // 写真詳細データ取得処理
     fun getPhotoInfo(parameter: Map<String, String>): Response<RspInfo> {
         val service = retrofit.create(InfoApiInterface::class.java)
         return service.getInfo(parameter).execute()
