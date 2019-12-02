@@ -39,16 +39,16 @@ class PhotoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = if (arguments == null) {
-            ""
-        } else {
-            arguments!!.getString(activity!!.getString(R.string.ID))
-        }
 
-        val url = if (arguments == null) {
-            ""
+        lateinit var id: String
+        lateinit var url: String
+
+        if (arguments != null) {
+            id = arguments!!.getString(activity!!.getString(R.string.ID))!!
+            url = arguments!!.getString(activity!!.getString(R.string.URL))!!
         } else {
-            arguments!!.getString(activity!!.getString(R.string.URL))
+            id = ""
+            url = ""
         }
 
         parameter[activity!!.getString(R.string.get_info_parameter_id)] = id
