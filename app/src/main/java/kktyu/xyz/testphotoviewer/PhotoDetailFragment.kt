@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoDetailBinding
-import kktyu.xyz.testphotoviewer.photoInfoResponseDataClass.PhotoInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -54,11 +53,10 @@ class PhotoDetailFragment : Fragment() {
         parameter[activity!!.getString(R.string.get_info_parameter_id)] = id
 
         val response = getApi()
-        lateinit var photoInfo: PhotoInfo
 
         if (response.isSuccessful) {
             if (response.body() != null) {
-                photoInfo = response.body()!!.photo
+                val photoInfo = response.body()!!.photo
 
                 binding.viewModel = PhotoDetailViewModel()
                 binding.viewModel?.item = PhotoDetail(
