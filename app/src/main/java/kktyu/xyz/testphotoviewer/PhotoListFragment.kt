@@ -54,7 +54,7 @@ class PhotoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPhotoListBinding.inflate(inflater, container, false)
-        binding.visibility = false
+        binding.loading = true
         return binding.root
     }
 
@@ -90,8 +90,8 @@ class PhotoListFragment : Fragment() {
             val photoInfo = mutableListOf<Photo>()
             val response = getApi()
 
-            if (response.isSuccessful) {
-                binding.visibility = true
+                if (response.isSuccessful) {
+                    binding.loading = false
 
                 if (response.body() != null) {
                     photos = response.body()!!.photos
