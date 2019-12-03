@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoDetailBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -39,27 +38,32 @@ class PhotoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = if (arguments == null) {
-            ""
+
+        lateinit var id: String
+        lateinit var url: String
+
+        if (arguments != null) {
+            id = arguments!!.getString(activity!!.getString(R.string.ID))!!
+            url = arguments!!.getString(activity!!.getString(R.string.URL))!!
         } else {
-            arguments!!.getString(activity!!.getString(R.string.ID))
+            id = ""
+            url = ""
         }
 
         parameter[activity!!.getString(R.string.get_info_parameter_id)] = id
 
         val response = getApi()
-        lateinit var photoInfo: PhotoInfo
 
         if (response.isSuccessful) {
             if (response.body() != null) {
-                photoInfo = response.body()!!.photo
+                val photoInfo = response.body()!!.photo
 
-                binding.photo = PhotoModel(
-                    "",
+                binding.viewModel = PhotoDetailViewModel()
+                binding.viewModel?.item = PhotoDetail(
                     photoInfo.title._content,
-                    "",
                     photoInfo.description._content,
-                    photoInfo.dates.taken
+                    photoInfo.dates.taken,
+                    Url(url, activity!!.applicationContext)
                 )
             }
         } else {
@@ -76,16 +80,6 @@ class PhotoDetailFragment : Fragment() {
                 fragmentManager!!.popBackStack()
             }
         }
-
-        val url = if (arguments == null) {
-            ""
-        } else {
-            arguments!!.getString(activity!!.getString(R.string.URL))
-        }
-
-        Glide.with(activity!!.applicationContext)
-            .load(url + activity!!.getString(R.string.photo_url_large))
-            .into(binding.imageView)
     }
 
     private fun getApi() = runBlocking {

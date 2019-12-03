@@ -1,5 +1,4 @@
-package kktyu.xyz.testphotoviewer
-
+package kktyu.xyz.testphotoviewer.photoInfoResponseDataClass
 
 data class PhotoInfo(
     val title: Title,

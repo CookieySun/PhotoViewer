@@ -1,9 +1,8 @@
 package kktyu.xyz.testphotoviewer
 
-data class PhotoModel(
-    var id:String,
+data class PhotoDetail(
     var title: String,
-    var photo: String,
     var description: String,
-    var date: String
+    var date: String,
+    var url: Url
 )
