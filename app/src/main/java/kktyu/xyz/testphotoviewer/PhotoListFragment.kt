@@ -16,8 +16,10 @@ import com.xwray.groupie.ViewHolder
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoListBinding
 import kktyu.xyz.testphotoviewer.listResponseDataClass.Photo
 import kktyu.xyz.testphotoviewer.listResponseDataClass.Photos
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,7 +56,7 @@ class PhotoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPhotoListBinding.inflate(inflater, container, false)
-        binding.visibility = false
+        binding.loading = true
         return binding.root
     }
 
@@ -84,83 +86,85 @@ class PhotoListFragment : Fragment() {
     ) {
         // 処理に時間がかかることがあるので別スレッドで実行
         GlobalScope.launch {
-            val mainHandler = Handler(Looper.getMainLooper())
-            // API処理
-            lateinit var photos: Photos
-            val photoInfo = mutableListOf<Photo>()
-            val response = getApi()
+            withContext(Dispatchers.IO) {
+                val mainHandler = Handler(Looper.getMainLooper())
+                // API処理
+                lateinit var photos: Photos
+                val photoInfo = mutableListOf<Photo>()
+                val response = getApi()
 
-            if (response.isSuccessful) {
-                binding.visibility = true
+                if (response.isSuccessful) {
+                    binding.loading = false
 
-                if (response.body() != null) {
-                    photos = response.body()!!.photos
+                    if (response.body() != null) {
+                        photos = response.body()!!.photos
 
-                    // 検索結果件数確認
-                    if (photos.photo.isNotEmpty()) {
-                        photos.photo.forEach {
-                            photoInfo.add(it)
-                        }
-                    } else {
-                        // 検索結果なし
-                        // トースト表示
-                        mainHandler.post {
-                            Toast.makeText(
-                                activity!!.applicationContext,
-                                "検索結果 0件",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                        // サーチ画面に戻る
-                        if (fragmentManager != null) {
-                            fragmentManager!!.popBackStack()
+                        // 検索結果件数確認
+                        if (photos.photo.isNotEmpty()) {
+                            photos.photo.forEach {
+                                photoInfo.add(it)
+                            }
+                        } else {
+                            // 検索結果なし
+                            // トースト表示
+                            mainHandler.post {
+                                Toast.makeText(
+                                    activity!!.applicationContext,
+                                    "検索結果 0件",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            // サーチ画面に戻る
+                            if (fragmentManager != null) {
+                                fragmentManager!!.popBackStack()
+                            }
                         }
                     }
+                } else {
+                    // API失敗
+                    // トースト表示
+                    mainHandler.post {
+                        Toast.makeText(
+                            activity!!.applicationContext,
+                            "ステータスコード:${response.code()}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    // サーチ画面に戻る
+                    if (fragmentManager != null) {
+                        fragmentManager!!.popBackStack()
+                    }
                 }
-            } else {
-                // API失敗
-                // トースト表示
-                mainHandler.post {
-                    Toast.makeText(
-                        activity!!.applicationContext,
-                        "ステータスコード:${response.code()}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                // サーチ画面に戻る
-                if (fragmentManager != null) {
-                    fragmentManager!!.popBackStack()
-                }
-            }
 
-            val itemList = mutableListOf<ListItem>()
+                val itemList = mutableListOf<ListItem>()
 
-            photoInfo.forEach {
-                itemList.add(
-                    ListItem(
-                        it.id,
-                        it.title,
-                        Url(
-                            activity!!.getString(R.string.photo_base_url_1) +
-                                    it.farm +
-                                    activity!!.getString(R.string.photo_base_url_2) +
-                                    "/" +
-                                    it.server +
-                                    "/" +
-                                    it.id + "_" + it.secret,
-                            activity!!.applicationContext
+                photoInfo.forEach {
+                    itemList.add(
+                        ListItem(
+                            it.id,
+                            it.title,
+                            Url(
+                                activity!!.getString(R.string.photo_base_url_1) +
+                                        it.farm +
+                                        activity!!.getString(R.string.photo_base_url_2) +
+                                        "/" +
+                                        it.server +
+                                        "/" +
+                                        it.id + "_" + it.secret,
+                                activity!!.applicationContext
+                            )
                         )
                     )
-                )
-            }
+                }
 
-            // メインスレッドへ処理を移譲
-            mainHandler.post {
-                adapter.update(mutableListOf<Group>().apply {
-                    itemList.forEach {
-                        add(PhotoItem(it, activity!!, fragmentManager))
-                    }
-                })
+                // メインスレッドへ処理を移譲
+                mainHandler.post {
+                    adapter.update(mutableListOf<Group>().apply {
+                        itemList.forEach {
+                            add(PhotoItem(it, activity!!, fragmentManager))
+                        }
+                    })
+                }
             }
         }
     }
