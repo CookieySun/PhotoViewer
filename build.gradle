@@ -8,6 +8,9 @@ buildscript {
     ext.retrofit_version = '2.6.1'
     ext.moshi_version = '1.9.2'
     ext.okhttp_version = '4.2.2'
+    ext.assertj_version = '3.12.0'
+    ext.androidx_test_core_version = '1.2.0'
+    ext.robolectric_version = '4.3.1'
     repositories {
         google()
         jcenter()
