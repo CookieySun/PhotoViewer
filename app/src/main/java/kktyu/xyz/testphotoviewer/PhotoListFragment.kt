@@ -62,13 +62,10 @@ class PhotoListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
 
         // 検索単語取得
-        val searchWord = if (arguments == null) {
-            ""
-        } else {
-            arguments!!.getString(activity!!.getString(R.string.SEARCH_WORD))
-        }
+        val searchWord = arguments?.getString(activity!!.getString(R.string.SEARCH_WORD)) ?: ""
 
         parameter[activity!!.getString(R.string.search_parameter_text)] = searchWord
 
