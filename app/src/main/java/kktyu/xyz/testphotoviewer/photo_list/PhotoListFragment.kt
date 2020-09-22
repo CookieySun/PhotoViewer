@@ -13,10 +13,8 @@ import com.xwray.groupie.ViewHolder
 import kktyu.xyz.testphotoviewer.R
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoListBinding
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import java.util.*
 
 class PhotoListFragment : Fragment() {
@@ -31,7 +29,8 @@ class PhotoListFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPhotoListBinding.inflate(inflater, container, false)

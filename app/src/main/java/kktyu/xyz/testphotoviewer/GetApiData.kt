@@ -38,15 +38,16 @@ class GetApiData(url: String) {
         return service.getInfo(parameter).execute()
     }
 
-
     private fun getClient(): OkHttpClient {
         return OkHttpClient
             .Builder()
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
             .build()
     }
 }
