@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kktyu.xyz.testphotoviewer.databinding.FragmentSearchBinding
+import kktyu.xyz.testphotoviewer.photo_list.PhotoListFragment
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {
