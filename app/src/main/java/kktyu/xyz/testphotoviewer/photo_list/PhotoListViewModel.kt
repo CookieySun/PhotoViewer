@@ -2,7 +2,6 @@ package kktyu.xyz.testphotoviewer.photo_list
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -134,17 +133,19 @@ class PhotoListViewModel(private val fragment: Fragment) :
 
         // メインスレッドへ処理を移譲
         mainHandler.post {
-            adapter.update(mutableListOf<Group>().apply {
-                itemList.forEach {
-                    add(
-                        PhotoItem(
-                            it,
-                            activity,
-                            activity.supportFragmentManager
+            adapter.update(
+                mutableListOf<Group>().apply {
+                    itemList.forEach {
+                        add(
+                            PhotoItem(
+                                it,
+                                activity,
+                                activity.supportFragmentManager
+                            )
                         )
-                    )
+                    }
                 }
-            })
+            )
         }
     }
 
