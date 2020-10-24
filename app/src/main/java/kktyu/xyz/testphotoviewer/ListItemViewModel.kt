@@ -1,16 +1,12 @@
 package kktyu.xyz.testphotoviewer
 
-import androidx.databinding.BaseObservable
+import androidx.lifecycle.ViewModel
 import kktyu.xyz.testphotoviewer.imageLoader.GlideImageLoader
 import kktyu.xyz.testphotoviewer.imageLoader.ImageLoader
 import kktyu.xyz.testphotoviewer.imageLoader.NullImageLoader
 
-class ListItemViewModel : BaseObservable() {
+class ListItemViewModel : ViewModel() {
     var item: ListItem? = null
-        set(value) {
-            field = value
-            notifyChange()
-        }
 
     val photoLoader: ImageLoader
         get() {
@@ -19,5 +15,4 @@ class ListItemViewModel : BaseObservable() {
                 sageItem.photo.getListUrl()
             )
         }
-
 }
