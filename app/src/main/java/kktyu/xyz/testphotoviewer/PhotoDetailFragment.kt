@@ -18,14 +18,14 @@ class PhotoDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        parameter[activity!!.getString(R.string.search_parameter_method)] =
-            activity!!.getString(R.string.get_info_parameter_method_value)
-        parameter[activity!!.getString(R.string.search_parameter_api_key)] =
-            activity!!.getString(R.string.api_key)
-        parameter[activity!!.getString(R.string.search_parameter_format)] =
-            activity!!.getString(R.string.search_parameter_format_value)
-        parameter[activity!!.getString(R.string.search_parameter_nojsoncallback)] =
-            activity!!.getString(R.string.search_parameter_nojsoncallback_value)
+        parameter[requireActivity().getString(R.string.search_parameter_method)] =
+            requireActivity().getString(R.string.get_info_parameter_method_value)
+        parameter[requireActivity().getString(R.string.search_parameter_api_key)] =
+            requireActivity().getString(R.string.api_key)
+        parameter[requireActivity().getString(R.string.search_parameter_format)] =
+            requireActivity().getString(R.string.search_parameter_format_value)
+        parameter[requireActivity().getString(R.string.search_parameter_nojsoncallback)] =
+            requireActivity().getString(R.string.search_parameter_nojsoncallback_value)
     }
 
     override fun onCreateView(
@@ -46,14 +46,14 @@ class PhotoDetailFragment : Fragment() {
         lateinit var url: String
 
         if (arguments != null) {
-            id = arguments!!.getString(activity!!.getString(R.string.ID))!!
-            url = arguments!!.getString(activity!!.getString(R.string.URL))!!
+            id = requireArguments().getString(requireActivity().getString(R.string.ID))!!
+            url = requireArguments().getString(requireActivity().getString(R.string.URL))!!
         } else {
             id = ""
             url = ""
         }
 
-        parameter[activity!!.getString(R.string.get_info_parameter_id)] = id
+        parameter[requireActivity().getString(R.string.get_info_parameter_id)] = id
 
         val response = getApi()
 
@@ -66,28 +66,26 @@ class PhotoDetailFragment : Fragment() {
                     photoInfo.title._content,
                     photoInfo.description._content,
                     photoInfo.dates.taken,
-                    Url(url, activity!!.applicationContext)
+                    Url(url, requireActivity().applicationContext)
                 )
             }
         } else {
             // API失敗
             // トースト表示
             Toast.makeText(
-                activity!!.applicationContext,
+                requireActivity().applicationContext,
                 "ステータスコード:${response.code()}",
                 Toast.LENGTH_LONG
             ).show()
 
             // サーチ画面に戻る
-            if (fragmentManager != null) {
-                fragmentManager!!.popBackStack()
-            }
+            parentFragmentManager.popBackStack()
         }
     }
 
     private fun getApi() = runBlocking {
         return@runBlocking withContext(Dispatchers.IO) {
-            GetApiData(activity!!.getString(R.string.search_base_url)).getPhotoInfo(parameter)
+            GetApiData(requireActivity().getString(R.string.search_base_url)).getPhotoInfo(parameter)
         }
     }
 }
