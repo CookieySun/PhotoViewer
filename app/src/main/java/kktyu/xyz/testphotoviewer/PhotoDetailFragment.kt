@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class PhotoDetailFragment : Fragment() {
-    private lateinit var binding: FragmentPhotoDetailBinding
+    lateinit var binding: FragmentPhotoDetailBinding
     private val parameter = mutableMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,8 +29,7 @@ class PhotoDetailFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPhotoDetailBinding.inflate(inflater, container, false)
@@ -39,8 +38,6 @@ class PhotoDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.lifecycleOwner = viewLifecycleOwner
 
         lateinit var id: String
         lateinit var url: String
