@@ -2,6 +2,7 @@ package kktyu.xyz.testphotoviewer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import kktyu.xyz.testphotoviewer.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 

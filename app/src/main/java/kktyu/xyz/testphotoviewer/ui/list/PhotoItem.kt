@@ -1,11 +1,13 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.ui.list
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.xwray.groupie.databinding.BindableItem
+import kktyu.xyz.testphotoviewer.R
 import kktyu.xyz.testphotoviewer.databinding.PhotoItemBinding
+import kktyu.xyz.testphotoviewer.ui.detail.PhotoDetailFragment
 
 class PhotoItem(
     private val photoModel: ListItem,

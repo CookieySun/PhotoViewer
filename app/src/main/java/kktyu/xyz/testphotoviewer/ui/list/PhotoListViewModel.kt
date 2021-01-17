@@ -1,4 +1,4 @@
-package kktyu.xyz.testphotoviewer.photo_list
+package kktyu.xyz.testphotoviewer.ui.list
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

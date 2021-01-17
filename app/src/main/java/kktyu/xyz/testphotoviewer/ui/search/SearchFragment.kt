@@ -1,4 +1,4 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.ui.search
 
 import android.os.Bundle
 import android.view.KeyEvent
@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import kktyu.xyz.testphotoviewer.R
 import kktyu.xyz.testphotoviewer.databinding.FragmentSearchBinding
-import kktyu.xyz.testphotoviewer.photo_list.PhotoListFragment
+import kktyu.xyz.testphotoviewer.ui.list.PhotoListFragment
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : Fragment() {

@@ -1,4 +1,4 @@
-package kktyu.xyz.testphotoviewer.photo_list
+package kktyu.xyz.testphotoviewer.ui.list
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
-import kktyu.xyz.testphotoviewer.ListItem
-import kktyu.xyz.testphotoviewer.PhotoItem
 import kktyu.xyz.testphotoviewer.R
 import kktyu.xyz.testphotoviewer.Url
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoListBinding
