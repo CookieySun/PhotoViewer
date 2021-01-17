@@ -1,10 +1,22 @@
 package kktyu.xyz.testphotoviewer.ui.detail
 
-import kktyu.xyz.testphotoviewer.Url
+import androidx.databinding.BaseObservable
+import kktyu.xyz.testphotoviewer.imageLoader.GlideImageLoader
+import kktyu.xyz.testphotoviewer.imageLoader.ImageLoader
+import kktyu.xyz.testphotoviewer.imageLoader.NullImageLoader
 
-data class PhotoDetail(
-    var title: String,
-    var description: String,
-    var date: String,
-    var url: Url
-)
+class PhotoDetail : BaseObservable() {
+    var item: PhotoDetailModel? = null
+        set(value) {
+            field = value
+            notifyChange()
+        }
+
+    val photoLoader: ImageLoader
+        get() {
+            val sageItem = item ?: return NullImageLoader()
+            return GlideImageLoader(
+                sageItem.url.getDetailUrl()
+            )
+        }
+}

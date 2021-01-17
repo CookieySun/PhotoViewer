@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kktyu.xyz.testphotoviewer.*
+import kktyu.xyz.testphotoviewer.GetApiData
+import kktyu.xyz.testphotoviewer.R
+import kktyu.xyz.testphotoviewer.Url
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoDetailBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -43,16 +45,10 @@ class PhotoDetailFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        lateinit var id: String
-        lateinit var url: String
-
-        if (arguments != null) {
-            id = requireArguments().getString(requireActivity().getString(R.string.ID))!!
-            url = requireArguments().getString(requireActivity().getString(R.string.URL))!!
-        } else {
-            id = ""
-            url = ""
-        }
+        val id: String =
+            requireArguments().getString(requireActivity().getString(R.string.ID)) ?: ""
+        val url: String =
+            requireArguments().getString(requireActivity().getString(R.string.URL)) ?: ""
 
         parameter[requireActivity().getString(R.string.get_info_parameter_id)] = id
 
@@ -62,8 +58,8 @@ class PhotoDetailFragment : Fragment() {
             if (response.body() != null) {
                 val photoInfo = response.body()!!.photo
 
-                binding.viewModel = PhotoDetailViewModel()
-                binding.viewModel?.item = PhotoDetail(
+                binding.viewModel = PhotoDetail()
+                binding.viewModel?.item = PhotoDetailModel(
                     photoInfo.title._content,
                     photoInfo.description._content,
                     photoInfo.dates.taken,

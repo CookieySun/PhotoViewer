@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="kktyu.xyz.testphotoviewer.ui.detail.PhotoDetailViewModel" />
+            type="kktyu.xyz.testphotoviewer.ui.detail.PhotoDetail" />
     </data>
 
     <ScrollView
