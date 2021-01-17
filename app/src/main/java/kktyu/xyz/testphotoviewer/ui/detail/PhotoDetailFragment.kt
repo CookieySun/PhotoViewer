@@ -6,13 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kktyu.xyz.testphotoviewer.GetApiData
+import androidx.fragment.app.viewModels
 import kktyu.xyz.testphotoviewer.R
-import kktyu.xyz.testphotoviewer.Url
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoDetailBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kktyu.xyz.testphotoviewer.imageLoader.GlideImageLoader
 
 class PhotoDetailFragment : Fragment() {
     private lateinit var binding: FragmentPhotoDetailBinding
@@ -43,7 +40,11 @@ class PhotoDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.viewModel = PhotoDetail()
+
         binding.lifecycleOwner = viewLifecycleOwner
+
+        val viewModel: PhotoDetailViewModel by viewModels()
 
         val id: String =
             requireArguments().getString(requireActivity().getString(R.string.ID)) ?: ""
@@ -52,37 +53,26 @@ class PhotoDetailFragment : Fragment() {
 
         parameter[requireActivity().getString(R.string.get_info_parameter_id)] = id
 
-        val response = getApi()
+        viewModel.getApi(parameter, url)
 
-        if (response.isSuccessful) {
-            if (response.body() != null) {
-                val photoInfo = response.body()!!.photo
+        viewModel.viewModel.observe(viewLifecycleOwner) {
+            binding.viewModel = it
+            binding.imageLoader = GlideImageLoader(
+                it.item?.url?.getDetailUrl()
+            )
+        }
 
-                binding.viewModel = PhotoDetail()
-                binding.viewModel?.item = PhotoDetailModel(
-                    photoInfo.title._content,
-                    photoInfo.description._content,
-                    photoInfo.dates.taken,
-                    Url(url, requireActivity().applicationContext)
-                )
-            }
-        } else {
+        viewModel.errorResponse.observe(viewLifecycleOwner) {
             // API失敗
             // トースト表示
             Toast.makeText(
                 requireActivity().applicationContext,
-                "ステータスコード:${response.code()}",
+                "ステータスコード:$it",
                 Toast.LENGTH_LONG
             ).show()
 
             // サーチ画面に戻る
             parentFragmentManager.popBackStack()
-        }
-    }
-
-    private fun getApi() = runBlocking {
-        return@runBlocking withContext(Dispatchers.IO) {
-            GetApiData(requireActivity().getString(R.string.search_base_url)).getPhotoInfo(parameter)
         }
     }
 }

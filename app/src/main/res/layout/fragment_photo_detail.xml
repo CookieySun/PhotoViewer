@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="kktyu.xyz.testphotoviewer.ui.detail.PhotoDetail" />
+
+        <variable
+            name="imageLoader"
+            type="kktyu.xyz.testphotoviewer.imageLoader.ImageLoader" />
     </data>
 
     <ScrollView
