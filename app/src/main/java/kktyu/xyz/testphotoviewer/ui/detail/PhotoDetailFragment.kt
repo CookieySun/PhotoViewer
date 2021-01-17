@@ -1,4 +1,4 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.ui.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import kktyu.xyz.testphotoviewer.*
 import kktyu.xyz.testphotoviewer.databinding.FragmentPhotoDetailBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking

@@ -1,4 +1,6 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.ui.list
+
+import kktyu.xyz.testphotoviewer.Url
 
 class ListItem(
     var id: String,

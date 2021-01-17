@@ -1,22 +1,18 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.ui.list
 
-import androidx.databinding.BaseObservable
+import androidx.lifecycle.ViewModel
 import kktyu.xyz.testphotoviewer.imageLoader.GlideImageLoader
 import kktyu.xyz.testphotoviewer.imageLoader.ImageLoader
 import kktyu.xyz.testphotoviewer.imageLoader.NullImageLoader
 
-class PhotoDetailViewModel : BaseObservable() {
-    var item: PhotoDetail? = null
-        set(value) {
-            field = value
-            notifyChange()
-        }
+class ListItemViewModel : ViewModel() {
+    var item: ListItem? = null
 
     val photoLoader: ImageLoader
         get() {
             val sageItem = item ?: return NullImageLoader()
             return GlideImageLoader(
-                sageItem.url.getDetailUrl()
+                sageItem.photo.getListUrl()
             )
         }
 }

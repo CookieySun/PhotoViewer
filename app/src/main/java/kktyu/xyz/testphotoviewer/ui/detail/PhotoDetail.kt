@@ -1,4 +1,6 @@
-package kktyu.xyz.testphotoviewer
+package kktyu.xyz.testphotoviewer.ui.detail
+
+import kktyu.xyz.testphotoviewer.Url
 
 data class PhotoDetail(
     var title: String,
