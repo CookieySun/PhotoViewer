@@ -1,8 +1,8 @@
 package kktyu.xyz.testphotoviewer
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
+import androidx.appcompat.app.AppCompatActivity
+import kktyu.xyz.testphotoviewer.ui.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 

@@ -7,7 +7,11 @@
 
         <variable
             name="viewModel"
-            type="kktyu.xyz.testphotoviewer.PhotoDetailViewModel" />
+            type="kktyu.xyz.testphotoviewer.ui.detail.PhotoDetail" />
+
+        <variable
+            name="imageLoader"
+            type="kktyu.xyz.testphotoviewer.imageLoader.ImageLoader" />
     </data>
 
     <ScrollView
@@ -19,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            tools:context=".PhotoDetailFragment">
+            tools:context=".ui.detail.PhotoDetailFragment">
 
             <ImageView
                 android:id="@+id/image_view"

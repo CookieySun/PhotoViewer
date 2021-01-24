@@ -7,7 +7,11 @@
 
         <variable
             name="viewModel"
-            type="kktyu.xyz.testphotoviewer.ListItemViewModel" />
+            type="kktyu.xyz.testphotoviewer.ui.list.ListItemModel" />
+
+        <variable
+            name="imageLoader"
+            type="kktyu.xyz.testphotoviewer.ui.list.ListImageLoader" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +28,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:contentDescription="@string/image"
-            app:image_loader="@{viewModel.photoLoader}"
+            app:image_loader="@{imageLoader.load(viewModel.item)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
