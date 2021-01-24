@@ -7,25 +7,29 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kktyu.xyz.testphotoviewer.GetApiData
 import kktyu.xyz.testphotoviewer.R
-import kktyu.xyz.testphotoviewer.listResponseDataClass.Rsp
+import kktyu.xyz.testphotoviewer.Url
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
 class PhotoListViewModel(application: Application) : AndroidViewModel(application) {
-    private var _photoResponse = MutableLiveData<Response<Rsp>>()
-    val photoResponse: LiveData<Response<Rsp>> get() = _photoResponse
+    private val context = getApplication<Application>()
+
+    private val _itemList = MutableLiveData<List<ListItem>>()
+    val itemList: LiveData<List<ListItem>> get() = _itemList
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
 
     private fun addParameter(param: String): Map<String, String> {
         return mutableMapOf<String, String>().apply {
             put(
-                    getApplication<Application>().getString(R.string.search_parameter_method),
-                    getApplication<Application>().getString(R.string.search_parameter_method_value)
+                getApplication<Application>().getString(R.string.search_parameter_method),
+                getApplication<Application>().getString(R.string.search_parameter_method_value)
             )
             put(
-                    getApplication<Application>().getString(R.string.search_parameter_api_key),
-                    getApplication<Application>().getString(R.string.api_key)
+                getApplication<Application>().getString(R.string.search_parameter_api_key),
+                getApplication<Application>().getString(R.string.api_key)
             )
             put(
                     getApplication<Application>().getString(R.string.search_parameter_format),
@@ -54,11 +58,49 @@ class PhotoListViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getApi(param: String) {
         viewModelScope.launch {
-            _photoResponse.value = GetApiData(
-                    getApplication<Application>().getString(
-                            R.string.search_base_url
-                    )
+            val response = GetApiData(
+                getApplication<Application>().getString(
+                    R.string.search_base_url
+                )
             ).getPhotoList(addParameter(param))
+
+            if (!response.isSuccessful) {
+                _errorMessage.postValue("ステータスコード:${response.code()}")
+                return@launch
+            }
+
+            val body = response.body()
+
+            if (body == null) {
+                _errorMessage.postValue("検索結果 0件")
+                return@launch
+            }
+
+            val photoList = body.photos.photo
+
+            if (photoList.isEmpty()) {
+                _errorMessage.postValue("検索結果 0件")
+                return@launch
+            }
+
+            _itemList.postValue(
+                photoList.map {
+                    ListItem(
+                        it.id,
+                        it.title,
+                        Url(
+                            context.getString(R.string.photo_base_url_1) +
+                                    it.farm +
+                                    context.getString(R.string.photo_base_url_2) +
+                                    "/" +
+                                    it.server +
+                                    "/" +
+                                    it.id + "_" + it.secret,
+                            context.applicationContext
+                        )
+                    )
+                }
+            )
         }
     }
 }
