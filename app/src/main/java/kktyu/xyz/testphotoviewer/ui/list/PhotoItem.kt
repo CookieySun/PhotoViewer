@@ -32,8 +32,9 @@ class PhotoItem(
     override fun getLayout() = R.layout.photo_item
 
     override fun bind(viewBinding: PhotoItemBinding, position: Int) {
-        viewBinding.viewModel = ListItemViewModel()
+        viewBinding.viewModel = ListItemModel()
         viewBinding.viewModel?.item = photoModel
+        viewBinding.imageLoader = ListImageLoader
         viewBinding.root.setOnClickListener(clickListener)
     }
 }
