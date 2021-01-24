@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
@@ -50,10 +50,10 @@ class PhotoListFragment : Fragment() {
 
         binding.photoList.adapter = adapter
 
-        val viewModel = ViewModelProvider(this,).get(PhotoListViewModel::class.java)
+        val viewModel by viewModels<PhotoListViewModel>()
 
         binding.loading = true
-        val param = this.arguments?.getString(this.getString(R.string.SEARCH_WORD)) ?: ""
+        val param = requireArguments().getString(this.getString(R.string.SEARCH_WORD)) ?: ""
         viewModel.getApi(param)
 
         viewModel.photoResponse.observe(viewLifecycleOwner, {
