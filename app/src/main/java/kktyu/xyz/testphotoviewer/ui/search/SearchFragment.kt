@@ -30,28 +30,27 @@ class SearchFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         search_box.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_ENTER) {
-                val searchWord = binding.searchBox.text.toString()
-
-                if (searchWord.isNotEmpty() && searchWord.isNotBlank()) {
-                    val bundle = Bundle()
-                    bundle.putString(activity!!.getString(R.string.SEARCH_WORD), searchWord)
-
-                    val fragment = PhotoListFragment()
-                    fragment.arguments = bundle
-
-                    fragmentManager!!.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .addToBackStack("SearchFragment")
-                        .commit()
-
-                    true
-                } else {
-                    false
-                }
-            } else {
-                false
+            if (event.action != KeyEvent.ACTION_UP || keyCode != KeyEvent.KEYCODE_ENTER) {
+                return@setOnKeyListener false
             }
+            val searchWord = binding.searchBox.text.toString()
+
+            if (searchWord.isEmpty()) {
+                return@setOnKeyListener false
+            }
+
+            val bundle = Bundle()
+            bundle.putString(requireActivity().getString(R.string.SEARCH_WORD), searchWord)
+
+            val fragment = PhotoListFragment()
+            fragment.arguments = bundle
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack("SearchFragment")
+                .commit()
+
+            return@setOnKeyListener true
         }
     }
 }
